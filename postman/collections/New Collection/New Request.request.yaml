@@ -1,0 +1,14 @@
+$kind: http-request
+name: New Request
+url: http://localhost:3000/koyler
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"ad\": \"Yeni Köy\",\r
+
+    \  \"nufus\": 150\r
+
+    }"
+order: 1784539782513

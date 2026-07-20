@@ -1,0 +1,14 @@
+$kind: http-request
+name: oyuncu ekle
+url: http://localhost:3000/oyuncular
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"kullaniciAdi\": \"CermenBeyi\",\r
+
+    \  \"seviye\": 15\r
+
+    }"
+order: 4010662819235657

@@ -1,0 +1,23 @@
+$kind: http-request
+name: New Request
+url: http://localhost:3000/health
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status kodu 200 dönmeli\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Durum 'Aktif' olmalı\", function () {\r
+
+      \    var jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData.durum).to.eql(\"Aktif\");\r
+
+      });"
+    language: text/javascript
+order: 1005548926266207
