@@ -1,6 +1,6 @@
 $kind: http-request
 name: oyuncu ekle
-url: http://localhost:3000/oyuncular
+url: "{{basebase}}/oyuncular"
 method: POST
 body:
   type: json
@@ -8,7 +8,27 @@ body:
 
     \  \"kullaniciAdi\": \"CermenBeyi\",\r
 
-    \  \"seviye\": 15\r
+    \  \"seviye\": 18\r
 
-    }"
+    \  }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Başarılı oluşturma kodu (201) dönmeli\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Dönen veri, gönderdiğimiz kullanıcı adını içermeli\", function () {\r
+
+      \    var jsonData = pm.response.json();\r
+
+      \    // Sunucudan dönen JSON'daki 'veri.kullaniciAdi' kısmı CermenBeyi mi diye bakıyoruz\r
+
+      \    pm.expect(jsonData.veri.kullaniciAdi).to.eql(\"CermenBeyi\");\r
+
+      });"
+    language: text/javascript
 order: 4010662819235657

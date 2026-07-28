@@ -1,5 +1,5 @@
 name: New Environment
 values:
-  - key: base_url
+  - key: basebase
     value: ''
 color: 24

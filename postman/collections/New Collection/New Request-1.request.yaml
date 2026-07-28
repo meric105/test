@@ -1,7 +1,10 @@
 $kind: http-request
 name: New Request
-url: http://localhost:3000/health
-method: GET
+url: http://localhost:3000/oyuncular/1
+method: DELETE
+body:
+  type: json
+  content: ""
 scripts:
   - type: afterResponse
     code: "pm.test(\"Status kodu 200 dönmeli\", function () {\r
@@ -12,12 +15,12 @@ scripts:
 
       \r
 
-      pm.test(\"Durum 'Aktif' olmalı\", function () {\r
+      pm.test(\"Silme işlemi mesajı doğru olmalı\", function () {\r
 
       \    var jsonData = pm.response.json();\r
 
-      \    pm.expect(jsonData.durum).to.eql(\"Aktif\");\r
+      \    pm.expect(jsonData.mesaj).to.eql(\"Oyuncu sistemden silindi.\");\r
 
       });"
     language: text/javascript
-order: 1005548926266207
+order: 4362535483656338

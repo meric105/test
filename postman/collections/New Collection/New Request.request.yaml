@@ -1,7 +1,7 @@
 $kind: http-request
 name: New Request
-url: http://localhost:3000/koyler
-method: POST
+url: http://localhost:3000/oyuncular
+method: GET
 body:
   type: json
   content: "{\r
