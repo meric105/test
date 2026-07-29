@@ -1,0 +1,28 @@
+#include <iostream>
+
+int main() {
+    std::cout << "Merhaba, dünya!" << std::endl;
+
+
+
+
+
+     int a = 1; int b = 0; int c = 5;
+     char b = b; char l = l;
+
+
+
+    return 0;
+
+
+
+
+
+
+}
+
+
+
+
+
+
