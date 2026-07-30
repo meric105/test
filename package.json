@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint . --ext .js"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
+    "jest": "^30.4.2",
     "prettier": "^3.9.6",
     "ts-node": "^10.9.2",
     "typescript": "^7.0.2"
