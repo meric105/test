@@ -1,28 +1,30 @@
 name: CI Pipeline
 
 on:
+  push:
+    branches: [ "main", "fire" ]
   pull_request:
-    branches: [ test ]
+    branches: [ "main", "fire" ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:   
-    - name: Kodu Çek       # check
+    - name: Kodu Çek
       uses: actions/checkout@v3
 
     - name: Node.js Kurulumu
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'       # dependency cache
+        cache: 'npm'
 
-    - name: Bağımlılıkları Yükle  ## install
+    - name: Bağımlılıkları Yükle
       run: npm install
 
-    - name: ESLint Kontrolü  # lint
+    - name: ESLint Kontrolü
       run: npm run lint
 
-    - name: Testleri Çalıştır # test
+    - name: Testleri Çalıştır
       run: npm test
