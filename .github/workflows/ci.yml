@@ -9,18 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:   
-    - name: Kodu Çek       #check
+    - name: Kodu Çek       # check
       uses: actions/checkout@v3
 
     - name: Node.js Kurulumu
       uses: actions/setup-node@v3
       with:
         node-version: '18'
+        cache: 'npm'       # dependency cache
 
-    - name: Bağımlılıkları Yükle  ##install
+    - name: Bağımlılıkları Yükle  ## install
       run: npm install
 
-    - name: ESLint Kontrolü  #lint
+    - name: ESLint Kontrolü  # lint
       run: npm run lint
 
-#test icin npm test kullanacak
+    - name: Testleri Çalıştır # test
+      run: npm test
