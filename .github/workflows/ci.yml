@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     branches: [ "main", "fire" ]
 
 jobs:
+  # 1. AŞAMA: Kodun test edilmesi ve lint hatalarının düzeltilmesi
   build-and-test:
     runs-on: ubuntu-latest
     
@@ -39,3 +40,27 @@ jobs:
 
     - name: Testleri Çalıştır
       run: npm test
+
+  # 2. AŞAMA: Testler geçerse Docker imajını oluştur ve yükle
+  docker-build-push:
+    needs: build-and-test # SADECE build-and-test başarıyla biterse bu aşama başlar (Job Dependency)
+    if: github.ref == 'refs/heads/main' # SADECE kod main branch'ine geldiğinde çalışır (Conditional)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Kodu Çek
+      uses: actions/checkout@v3
+
+    - name: Docker Hub'a Giriş Yap (Secret Kullanımı)
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKETHUB_TOKEN }}
+
+    - name: Image Build & Push İşlemi
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        # proje-adin kısmını uygulamanın adıyla değiştirmeyi unutma!
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/postmantest:latest
