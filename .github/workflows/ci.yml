@@ -16,51 +16,59 @@ jobs:
 
     steps:   
     - name: Kodu Çek
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Node.js Kurulumu
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         cache: 'npm'
 
     - name: Bağımlılıkları Yükle
       run: npm install
 
-    - name: ESLint/Prettier Hatalarını Otomatik Düzelt
+    - name: Prettier ile Kodları Biçimlendir
+      run: npx prettier --write .
+
+    - name: ESLint Hatalarını Otomatik Düzelt
       run: npm run lint -- --fix || true
 
     - name: Düzeltilen Kodları Commit Et ve Gönder
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "Otomatik Prettier/ESLint düzeltmeleri uygulandı" || echo "Değişiklik bulunamadı, commit atlanıyor."
-        git push
+        
+        # Sadece gerçek bir değişiklik varsa commit at ve pushla
+        if git status --porcelain | grep -q .; then
+          git add .
+          git commit -m "chore: otomatik Prettier/ESLint düzeltmeleri uygulandı"
+          git push
+        else
+          echo "Değişiklik bulunamadı, commit ve push atlanıyor."
+        fi
 
     - name: Testleri Çalıştır
       run: npm test
 
   # 2. AŞAMA: Testler geçerse Docker imajını oluştur ve yükle
   docker-build-push:
-    needs: build-and-test # SADECE build-and-test başarıyla biterse bu aşama başlar (Job Dependency)
-    if: github.ref == 'refs/heads/main' # SADECE kod main branch'ine geldiğinde çalışır (Conditional)
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     
     steps:
     - name: Kodu Çek
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Docker Hub'a Giriş Yap (Secret Kullanımı)
+    - name: Docker Hub'a Giriş Yap
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKETHUB_TOKEN }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Image Build & Push İşlemi
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        # proje-adin kısmını uygulamanın adıyla değiştirmeyi unutma!
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/postmantest:latest
