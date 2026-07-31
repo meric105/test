@@ -38,9 +38,12 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
+        # Tüm düzeltmeleri ekle ama workflow dosyalarının olduğu klasörü HARİÇ TUT
+        git add .
+        git reset .github/
+        
         # Sadece gerçek bir değişiklik varsa commit at ve pushla
         if git status --porcelain | grep -q .; then
-          git add .
           git commit -m "chore: otomatik Prettier/ESLint düzeltmeleri uygulandı"
           git push
         else
