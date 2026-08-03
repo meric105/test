@@ -6,15 +6,15 @@ import { connectDB } from './database/mongoosedocker.js'; // <-- Bağlantıyı b
 const app = express();
 
 app.use(express.json());
-connectDB(); 
+connectDB();
 
 app.get('/oyuncular', OyuncuController.oyunculariGetir);
 app.post('/oyuncular', OyuncuController.oyuncuEkle);
 app.get('/health', (req, res) => {
-    res.status(200).json({ durum: "Aktif" });
+  res.status(200).json({ durum: 'Aktif' });
 });
 app.delete('/oyuncular/:id', OyuncuController.sil);
 
 app.listen(config.port, () => {
-    console.log(`Sunucu ${config.port} portunda çalışıyor...`);
+  console.log(`Sunucu ${config.port} portunda çalışıyor...`);
 });
