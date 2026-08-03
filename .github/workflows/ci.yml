@@ -7,7 +7,7 @@ on:
     branches: [ "main", "fire" ]
 
 jobs:
-  # 1. AŞAMA: Kodun test edilmesi ve lint hatalarının düzeltilmesi
+  
   build-and-test:
     runs-on: ubuntu-latest
     
@@ -53,7 +53,6 @@ jobs:
     - name: Testleri Çalıştır
       run: npm test
 
-  # 2. AŞAMA: Testler geçerse Docker imajını oluştur ve yükle
   docker-build-push:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
